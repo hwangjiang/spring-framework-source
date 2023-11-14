@@ -13,6 +13,8 @@ public class SpringSourceTest {
 
 	@Test
 	public void testSpringSource() {
+		//入口:以XmlBeanFactory做演示
+		//从最基本的解析applicationContext.xml开始
 		XmlBeanFactory xmlBeanFactory = new XmlBeanFactory(new ClassPathResource("applicationContext.xml"));
 		User user = (User) xmlBeanFactory.getBean("user");
 		System.out.println(user);
