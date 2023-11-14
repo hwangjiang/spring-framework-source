@@ -16,6 +16,7 @@ public class SpringSourceTest {
 		//入口:以XmlBeanFactory做演示
 		//从最基本的解析applicationContext.xml开始
 		XmlBeanFactory xmlBeanFactory = new XmlBeanFactory(new ClassPathResource("applicationContext.xml"));
+		//创建对象分析：AbstractBeanFactory.doGetBean()分析
 		User user = (User) xmlBeanFactory.getBean("user");
 		System.out.println(user);
 	}

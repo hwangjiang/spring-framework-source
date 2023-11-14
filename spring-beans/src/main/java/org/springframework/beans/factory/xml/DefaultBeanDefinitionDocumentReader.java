@@ -176,7 +176,7 @@ public class DefaultBeanDefinitionDocumentReader implements BeanDefinitionDocume
 					Element ele = (Element) node;
 					if (delegate.isDefaultNamespace(ele)) {
 						//解析默认元素：bean、import...
-						//此处主要关注bean
+						//此处主要关注bean标签
 						parseDefaultElement(ele, delegate);
 					}
 					else {
