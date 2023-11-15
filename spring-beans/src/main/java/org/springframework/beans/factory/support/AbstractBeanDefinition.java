@@ -290,6 +290,11 @@ public abstract class AbstractBeanDefinition extends BeanMetadataAttributeAccess
 	 * </ul>
 	 */
 	public void overrideFrom(BeanDefinition other) {
+		/**
+		 * 接下来就是一系列的将子bean的属性赋值给父bean的过程:class、scope、lazy-init....
+		 * 其中需要关注的点是：setAbstract(other.isAbstract());
+		 * 子bean的abstract属性默认为false，因为抽象类是不能创建对象的，所以此处会将子bean的abstract属性赋值给父类
+		 */
 		if (StringUtils.hasLength(other.getBeanClassName())) {
 			setBeanClassName(other.getBeanClassName());
 		}

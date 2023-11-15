@@ -5,12 +5,6 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-	<bean id="parent" abstract="true">
-		<property name="age" value="18" />
-	</bean>
-
-	<bean id="user" class="com.hwang.study.domain.User" parent="parent">
-		<property name="name" value="hwang" />
-	</bean>
+	<bean id="product" class="com.hwang.study.domain.Product"/>
 
 </beans>
