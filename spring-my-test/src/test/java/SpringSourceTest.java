@@ -22,6 +22,10 @@ public class SpringSourceTest {
 		//创建对象分析：AbstractBeanFactory.doGetBean()分析
 		User user = (User) xmlBeanFactory.getBean("user");
 		System.out.println(user);
+
+		//用于测试静态工厂
+//		Object p = xmlBeanFactory.getBean("p");
+//		System.out.println(p);
 	}
 
 

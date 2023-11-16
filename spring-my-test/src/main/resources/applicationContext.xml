@@ -13,4 +13,6 @@
 		<property name="name" value="hwang" />
 	</bean>
 
+	<bean id="p" class="com.hwang.study.domain.ProductFactory" factory-method="getObject"/>
+
 </beans>
