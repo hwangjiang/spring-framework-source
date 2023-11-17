@@ -595,7 +595,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		try {
 			//给bean当中的属性赋值
 			populateBean(beanName, mbd, instanceWrapper);
-			//初始化Bean   BeanPostProcessorBefore -> init-method -> BeanPostProcessorAfter
+			//初始化Bean: Aware(BeanNameAware、BeanFactoryAware....) -> BeanPostProcessorBefore -> init-method -> BeanPostProcessorAfter
 			exposedObject = initializeBean(beanName, exposedObject, mbd);
 		}
 		catch (Throwable ex) {
@@ -1415,6 +1415,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			}
 			for (BeanPostProcessor bp : getBeanPostProcessors()) {
 				if (bp instanceof InstantiationAwareBeanPostProcessor) {
+					//InstantiationAwareBeanPostProcessor的实现类AutowiredAnnotationBeanPostProcessor处理@Autowired、@Value
 					InstantiationAwareBeanPostProcessor ibp = (InstantiationAwareBeanPostProcessor) bp;
 					PropertyValues pvsToUse = ibp.postProcessProperties(pvs, bw.getWrappedInstance(), beanName);
 					if (pvsToUse == null) {
@@ -1785,15 +1786,18 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 			}, getAccessControlContext());
 		}
 		else {
+			//1、Aware
 			invokeAwareMethods(beanName, bean);
 		}
 
 		Object wrappedBean = bean;
 		if (mbd == null || !mbd.isSynthetic()) {
+			//2、BeanPostProcessorBefore
 			wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
 		}
 
 		try {
+			//3、init-method、InitializingBean(接口初始化)
 			invokeInitMethods(beanName, wrappedBean, mbd);
 		}
 		catch (Throwable ex) {
@@ -1802,6 +1806,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 					beanName, "Invocation of init method failed", ex);
 		}
 		if (mbd == null || !mbd.isSynthetic()) {
+			//4、BeanPostProcessorAfter，AOP动态代理在此处进行处理并返回代理对象
 			wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
 		}
 
