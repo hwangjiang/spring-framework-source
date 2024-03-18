@@ -1439,7 +1439,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 		}
 
 		if (pvs != null) {
-			//赋值核心逻辑
+			//xml文件赋值核心逻辑
 			applyPropertyValues(beanName, mbd, bw, pvs);
 		}
 	}
