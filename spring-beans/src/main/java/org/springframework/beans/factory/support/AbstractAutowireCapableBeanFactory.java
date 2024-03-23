@@ -587,6 +587,15 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 				logger.trace("Eagerly caching bean '" + beanName +
 						"' to allow for resolving potential circular references");
 			}
+			/*
+				循环引用：两个单例的Bean且使用set注入
+				在某些场景下，循坏依赖的2个类可能不只是简单没有其他复杂操作的类
+				例如类A、类B互相依赖且他们都使用了AOP进行一些前置和后置的处理
+				正常情况下代理类ProxyClass是在类初始化流程当中使用BeanPostProcessor处理的，循环依赖这种场景下需要提前进行处理获取代理类
+				所以在A注入B时，B又要注入A时，其实是需要注入ProxyA，所以在如下getEarlyBeanReference方法当中则是处理BeanPostProcessor
+				singletonFactories存储的是实例化后非完全体对象
+				此处创建了ProxyA后，在A的初始化过程中是不会再进行创建ProxyA，因为ProxyClass也会有一个缓存
+			 */
 			addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, mbd, bean));
 		}
 
