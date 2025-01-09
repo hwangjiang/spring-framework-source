@@ -1,3 +1,5 @@
+import com.hwang.study.domain.A;
+import com.hwang.study.domain.B;
 import com.hwang.study.domain.Product;
 import com.hwang.study.domain.User;
 import org.junit.Test;
@@ -70,5 +72,16 @@ public class SpringSourceTest {
 		User user = child.getBean("user", User.class);
 		System.out.println("product = " + product);
 		System.out.println("user = " + user);
+	}
+
+	@Test
+	public void testCircularDependency() {
+		XmlBeanFactory xmlBeanFactory = new XmlBeanFactory(new ClassPathResource("circular-dependency.xml"));
+
+		A beanA = xmlBeanFactory.getBean("a", A.class);
+		B beanB = xmlBeanFactory.getBean("b", B.class);
+
+		System.out.println("beanA = " + beanA);
+		System.out.println("beanB = " + beanB);
 	}
 }
